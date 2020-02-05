@@ -11,7 +11,7 @@
       "type": "virtualbox-iso",
       "vm_name": "packer-centos-vm",
 
-      "boot_wait": "10s",
+      "boot_wait": "60s",
       "disk_size": "10240",
       "guest_os_type": "RedHat_64",
       "http_directory": "http",
@@ -36,8 +36,8 @@
       "output_directory": "builds",
 
       "vboxmanage": [
-        [  "modifyvm",  "{{.Name}}",  "--memory",  "1024" ],
-        [  "modifyvm",  "{{.Name}}",  "--cpus",  "2" ]
+        [  "modifyvm",  "{{.Name}}",  "--memory",  "2048" ],
+        [  "modifyvm",  "{{.Name}}",  "--cpus",  "4" ]
       ],
 
       "export_opts":
@@ -64,7 +64,7 @@
       "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
       "start_retry_timeout": "1m",
       "expect_disconnect": true,
-      "pause_before": "20s",
+      "pause_before": "60s",
       "override": {
         "{{user `image_name`}}" : {
           "scripts" :

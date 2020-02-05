@@ -35,13 +35,14 @@ openssh-server
 
 %post --log=/root/post_install.log
 
-# Add vagrant to sudoers
-cat > /etc/sudoers.d/vagrant << EOF_sudoers_vagrant
-vagrant        ALL=(ALL)       NOPASSWD: ALL
-EOF_sudoers_vagrant
+# Create the vagrant user account.
+/usr/sbin/useradd vagrant
+echo "vagrant" | passwd --stdin vagrant
 
-/bin/chmod 0440 /etc/sudoers.d/vagrant
-/bin/sed -i "s/^.*requiretty/#Defaults requiretty/" /etc/sudoers
+# Make the future vagrant user a sudo master.
+sed -i "s/^.*requiretty/#Defaults requiretty/" /etc/sudoers
+echo "vagrant        ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers.d/vagrant
+chmod 0440 /etc/sudoers.d/vagrant
 
 # Fix sshd config for CentOS 7 1611 (reboot issue)
 cat << EOF_sshd_config >> /etc/ssh/sshd_config
